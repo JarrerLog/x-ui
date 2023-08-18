@@ -59,13 +59,25 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       - name: package
-        run: tar -zcvf x-ui-android-arm64.tar.gz x-ui
-      - name: upload
-        uses: actions/upload-release-asset@main
+        run: |
+          tar -zcvf x-ui-android-arm64.tar.gz x-ui
+          echo "FIRMWARE=$PWD" >> $GITHUB_ENV
+
+      - name: Generate release tag
+        id: tag
+        if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+        run: |
+          echo "::set-output name=release_tag::$(date +"%Y.%m.%d-%H%M")"
+          touch release.txt
+          echo "::set-output name=status::success"
+
+      - name: Upload firmware to release
+        uses: softprops/action-gh-release@master
+        if: steps.tag.outputs.status == 'success' && !cancelled()
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ needs.release.outputs.upload_url }}
-          asset_path: x-ui-android-arm64.tar.gz
-          asset_name: x-ui-android-arm64.tar.gz
-          asset_content_type: application/gzip
+          name: "KTM-xui Android (Termux)"
+          tag_name: ${{ steps.tag.outputs.release_tag }}
+          body_path: release.txt
+          files: ${{ env.FIRMWARE }}/*
