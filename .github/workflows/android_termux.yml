@@ -28,7 +28,7 @@ jobs:
           # sudo apt install gcc-aarch64-linux-gnu
           wget -P ~ https://musl.cc/aarch64-linux-musl-cross.tgz
           tar -xvf ~/aarch64-linux-musl-cross.tgz
-          CGO_ENABLED=1 GOOS=linux GOARCH=arm64 CC=/home/runner/aarch64-linux-musl-cross/bin/aarch64-linux-musl-gcc go build -o xui-release -v main.go
+          CGO_ENABLED=1 GOOS=linux GOARCH=arm64 CC=/home/runner/x-ui/x-ui/aarch64-linux-musl-cross/bin/aarch64-linux-musl-gcc go build -o xui-release -v main.go
           mkdir x-ui
           cp xui-release x-ui/xui-release
           # cp x-ui.service x-ui/x-ui.service
