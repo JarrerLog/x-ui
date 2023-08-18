@@ -9,6 +9,8 @@ on:
         description: 'SSH connection to Actions'
         required: false
         default: 'false'
+env:
+  UPLOAD_RELEASE: true
 
 jobs:
   androidbuild:
