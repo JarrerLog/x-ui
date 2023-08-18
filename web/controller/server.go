@@ -38,7 +38,7 @@ func (a *ServerController) initRouter(g *gin.RouterGroup) {
 }
 
 func (a *ServerController) refreshStatus() {
-	a.lastStatus = a.serverService.GetStatus(a.lastStatus)
+	// a.lastStatus = a.serverService.GetStatus(a.lastStatus)
 }
 
 func (a *ServerController) startTask() {

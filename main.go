@@ -37,6 +37,7 @@ func runWebServer() {
 
 	err := database.InitDB(config.GetDBPath())
 	if err != nil {
+		log.Printf(config.GetDBPath())
 		log.Fatal(err)
 	}
 

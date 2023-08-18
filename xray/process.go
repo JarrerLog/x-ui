@@ -1,6 +1,7 @@
 package xray
 
 import (
+	// "log"
 	"bufio"
 	"bytes"
 	"context"
@@ -24,10 +25,12 @@ import (
 var trafficRegex = regexp.MustCompile("(inbound|outbound)>>>([^>]+)>>>traffic>>>(downlink|uplink)")
 
 func GetBinaryName() string {
-	return fmt.Sprintf("xray-%s-%s", runtime.GOOS, runtime.GOARCH)
+	// return fmt.Sprintf("xray-%s-%s", runtime.GOOS, runtime.GOARCH)
+	return "xray"
 }
 
 func GetBinaryPath() string {
+	// log.Printf("GetBinaryPath: %s", "bin/" + GetBinaryName())
 	return "bin/" + GetBinaryName()
 }
 

@@ -5,13 +5,9 @@ import (
 	"net"
 	"os"
 
-	"time"
-
 	"x-ui/logger"
-	"x-ui/util/common"
 	"x-ui/web/service"
-
-	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	// tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
 type LoginStatus byte
@@ -32,32 +28,32 @@ func NewStatsNotifyJob() *StatsNotifyJob {
 	return new(StatsNotifyJob)
 }
 
-func (j *StatsNotifyJob) SendMsgToTgbot(msg string) {
-	//Telegram bot basic info
-	tgBottoken, err := j.settingService.GetTgBotToken()
-	if err != nil {
-		logger.Warning("sendMsgToTgbot failed,GetTgBotToken fail:", err)
-		return
-	}
-	tgBotid, err := j.settingService.GetTgBotChatId()
-	if err != nil {
-		logger.Warning("sendMsgToTgbot failed,GetTgBotChatId fail:", err)
-		return
-	}
+// func (j *StatsNotifyJob) SendMsgToTgbot(msg string) {
+// 	//Telegram bot basic info
+// 	tgBottoken, err := j.settingService.GetTgBotToken()
+// 	if err != nil {
+// 		logger.Warning("sendMsgToTgbot failed,GetTgBotToken fail:", err)
+// 		return
+// 	}
+// 	tgBotid, err := j.settingService.GetTgBotChatId()
+// 	if err != nil {
+// 		logger.Warning("sendMsgToTgbot failed,GetTgBotChatId fail:", err)
+// 		return
+// 	}
 
-	bot, err := tgbotapi.NewBotAPI(tgBottoken)
-	if err != nil {
-		fmt.Println("get tgbot error:", err)
-		return
-	}
-	bot.Debug = true
-	fmt.Printf("Authorized on account %s", bot.Self.UserName)
-	info := tgbotapi.NewMessage(int64(tgBotid), msg)
-	//msg.ReplyToMessageID = int(tgBotid)
-	bot.Send(info)
-}
+// 	bot, err := tgbotapi.NewBotAPI(tgBottoken)
+// 	if err != nil {
+// 		fmt.Println("get tgbot error:", err)
+// 		return
+// 	}
+// 	bot.Debug = true
+// 	fmt.Printf("Authorized on account %s", bot.Self.UserName)
+// 	info := tgbotapi.NewMessage(int64(tgBotid), msg)
+// 	//msg.ReplyToMessageID = int(tgBotid)
+// 	bot.Send(info)
+// }
 
-//Here run is a interface method of Job interface
+// Here run is a interface method of Job interface
 func (j *StatsNotifyJob) Run() {
 	if !j.xrayService.IsXrayRunning() {
 		return
@@ -105,15 +101,15 @@ func (j *StatsNotifyJob) Run() {
 	}
 	//NOTE:If there no any sessions here,need to notify here
 	//TODO:分节点推送,自动转化格式
-	for _, inbound := range inbouds {
-		info += fmt.Sprintf("节点名称:%s\r\n端口:%d\r\n上行流量↑:%s\r\n下行流量↓:%s\r\n总流量:%s\r\n", inbound.Remark, inbound.Port, common.FormatTraffic(inbound.Up), common.FormatTraffic(inbound.Down), common.FormatTraffic((inbound.Up + inbound.Down)))
-		if inbound.ExpiryTime == 0 {
-			info += fmt.Sprintf("到期时间:无限期\r\n \r\n")
-		} else {
-			info += fmt.Sprintf("到期时间:%s\r\n \r\n", time.Unix((inbound.ExpiryTime/1000), 0).Format("2006-01-02 15:04:05"))
-		}
-	}
-	j.SendMsgToTgbot(info)
+	// for _, inbound := range inbouds {
+	// 	info += fmt.Sprintf("节点名称:%s\r\n端口:%d\r\n上行流量↑:%s\r\n下行流量↓:%s\r\n总流量:%s\r\n", inbound.Remark, inbound.Port, common.FormatTraffic(inbound.Up), common.FormatTraffic(inbound.Down), common.FormatTraffic((inbound.Up + inbound.Down)))
+	// 	if inbound.ExpiryTime == 0 {
+	// 		info += fmt.Sprintf("到期时间:无限期\r\n \r\n")
+	// 	} else {
+	// 		info += fmt.Sprintf("到期时间:%s\r\n \r\n", time.Unix((inbound.ExpiryTime/1000), 0).Format("2006-01-02 15:04:05"))
+	// 	}
+	// }
+	// j.SendMsgToTgbot(info)
 }
 
 func (j *StatsNotifyJob) UserLoginNotify(username string, ip string, time string, status LoginStatus) {
@@ -136,5 +132,5 @@ func (j *StatsNotifyJob) UserLoginNotify(username string, ip string, time string
 	msg += fmt.Sprintf("时间:%s\r\n", time)
 	msg += fmt.Sprintf("用户:%s\r\n", username)
 	msg += fmt.Sprintf("IP:%s\r\n", ip)
-	j.SendMsgToTgbot(msg)
+	// j.SendMsgToTgbot(msg)
 }

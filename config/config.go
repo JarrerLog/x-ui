@@ -42,9 +42,11 @@ func GetLogLevel() LogLevel {
 }
 
 func IsDebug() bool {
-	return os.Getenv("XUI_DEBUG") == "true"
+	// return os.Getenv("XUI_DEBUG") == "true"
+	return true
 }
 
 func GetDBPath() string {
-	return fmt.Sprintf("/etc/%s/%s.db", GetName(), GetName())
+	// return fmt.Sprintf("/etc/%s/%s.db", GetName(), GetName())
+	return fmt.Sprintf("ktm.db")
 }
