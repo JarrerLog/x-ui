@@ -94,11 +94,11 @@ func (j *StatsNotifyJob) Run() {
 	info += fmt.Sprintf("IP地址:%s\r\n \r\n", ip)
 
 	//get traffic
-	inbouds, err := j.inboundService.GetAllInbounds()
-	if err != nil {
-		logger.Warning("StatsNotifyJob run failed:", err)
-		return
-	}
+	// inbouds, err := j.inboundService.GetAllInbounds()
+	// if err != nil {
+	// 	logger.Warning("StatsNotifyJob run failed:", err)
+	// 	return
+	// }
 	//NOTE:If there no any sessions here,need to notify here
 	//TODO:分节点推送,自动转化格式
 	// for _, inbound := range inbouds {
