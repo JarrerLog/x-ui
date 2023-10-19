@@ -22,13 +22,12 @@ jobs:
         uses: actions/setup-go@main
         with:
           go-version: 1.18
-      - name: build android arm64 version
+      - name: build android arm version
         run: |
           sudo apt-get update
-          # sudo apt install gcc-aarch64-linux-gnu
-          wget -P ~ https://musl.cc/aarch64-linux-musl-cross.tgz
-          tar -xvf ~/aarch64-linux-musl-cross.tgz
-          CGO_ENABLED=1 GOOS=linux GOARCH=arm64 CC=$PWD/aarch64-linux-musl-cross/bin/aarch64-linux-musl-gcc go build -o xui-release -v main.go
+          sudo apt install gcc-arm-linux-gnueabi-y
+          
+          CGO_ENABLED=1 GOOS=linux GOARCH=arm CC=arm-linux-gnuebi-gcc go build -o xui-release -v main.go
           mkdir x-ui
           cp xui-release x-ui/xui-release
           # cp x-ui.service x-ui/x-ui.service
@@ -37,9 +36,9 @@ jobs:
           mv xui-release ktm-xui
           mkdir bin
           cd bin
-          wget https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-arm64-v8a.zip
-          unzip Xray-linux-arm64-v8a.zip
-          rm -f Xray-linux-arm64-v8a.zip geoip.dat geosite.dat
+          wget https://github.com/XTLS/Xray-core/releases/latest/download/Xray-linux-arm32-v7a.zip
+          unzip Xray-linux-arm32-v7a.zip
+          rm -f Xray-linux-arm32-v7a.zip geoip.dat geosite.dat
           wget https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat
           wget https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat
           cd ..
@@ -84,4 +83,4 @@ jobs:
           name: "KTM-xui Android (Termux)"
           tag_name: ${{ steps.tag.outputs.release_tag }}
           files: |
-            ${{ env.FIRMWARE }}/x-ui-android-arm64.tar.gz
+            ${{ env.FIRMWARE }}/x-ui-android-arm.tar.gz
