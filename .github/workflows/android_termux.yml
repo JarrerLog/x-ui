@@ -25,7 +25,7 @@ jobs:
       - name: build android arm version
         run: |
           sudo apt-get update
-          sudo apt install gcc-arm-linux-gnueabi-y
+          sudo apt install gcc-arm-linux-gnueabi -y
           
           CGO_ENABLED=1 GOOS=linux GOARCH=arm CC=arm-linux-gnuebi-gcc go build -o xui-release -v main.go
           mkdir x-ui
